@@ -472,11 +472,11 @@ export const href = (path = '') =>
 
 ## Implementation Checklist
 
-- [ ] Scaffold Astro 6 project: `package.json` (scripts: dev/build with
+- [x] Scaffold Astro 6 project: `package.json` (scripts: dev/build with
       `astro check && astro build`/preview), `astro.config.mjs`
       (`site`+`base`+sitemap+Tailwind vite plugin), `tsconfig.json`,
       `.gitignore` (node_modules, dist, .astro, .claude), `.nvmrc` (22.16.0).
-- [ ] Install deps: `astro`, `@tailwindcss/vite`, `tailwindcss`,
+- [x] Install deps: `astro`, `@tailwindcss/vite`, `tailwindcss`,
       `@astrojs/sitemap`, `@astrojs/rss`, `@fontsource-variable/fraunces`,
       `@fontsource-variable/nunito-sans`, `sharp`.
 - [ ] Design system: `src/styles/global.css` with Sunlit Meadow `@theme`
