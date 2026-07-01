@@ -522,7 +522,7 @@ export const href = (path = '') =>
 - [x] Pretty `README.md`: hero blurb, screenshots/placeholder, live URL,
       local-dev (nvm note), content-authoring guide, tech stack, license,
       credits pointer.
-- [ ] Create GitHub repo `crs48/food-forests`, push, set Pages source to
+- [x] Create GitHub repo `crs48/food-forests`, push, set Pages source to
       "GitHub Actions", merge to `main`, confirm the deploy workflow runs.
 
 ## Validation Checklist
@@ -542,7 +542,7 @@ export const href = (path = '') =>
 - [x] Dark mode renders correctly under `prefers-color-scheme: dark`; motion
       is suppressed under `prefers-reduced-motion: reduce`.
 - [x] `sitemap-index.xml`, `rss.xml`, and `robots.txt` are emitted in `dist/`.
-- [ ] The GitHub Actions **deploy workflow succeeds** and the site is live at
+- [x] The GitHub Actions **deploy workflow succeeds** and the site is live at
       `https://crs48.github.io/food-forests/` with working styling + links.
 
 ## References
