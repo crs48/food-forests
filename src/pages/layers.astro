@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+
+const layers = (await getCollection('layers')).sort((a, b) => a.data.order - b.data.order);
+const core = layers.filter((l) => !l.data.optional);
+const optional = layers.filter((l) => l.data.optional);
+---
+<BaseLayout title="The Seven Layers" description="Canopy to root to fungi — the vertical layers that let a food forest grow food at every level.">
+  <PageHeader
+    eyebrow="Structure"
+    icon="trees"
+    title="The layers of a food forest"
+    lede="A natural woodland fills every level of space, and a food forest borrows that trick. Robert Hart named seven layers; many growers add fungi and water to make eight or nine."
+  />
+
+  <Section width="default" pad="md">
+    <ol class="layers">
+      {core.map((layer, i) => (
+        <li class="layer" data-animate>
+          <div class="marker">
+            <span class="num">{i + 1}</span>
+            <span class="line" aria-hidden="true"></span>
+          </div>
+          <div class="content">
+            <div class="l-top">
+              <span class="l-ico"><Icon name={layer.data.icon} size={26} /></span>
+              <div>
+                <h2>{layer.data.name}</h2>
+                <p class="tag">{layer.data.tagline}</p>
+              </div>
+              <span class="height">{layer.data.heightRange}</span>
+            </div>
+            <p class="desc">{layer.body?.split('\n\n')[0]}</p>
+            {layer.data.exampleSpecies.length > 0 && (
+              <ul class="species">
+                {layer.data.exampleSpecies.map((s) => <li>{s}</li>)}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section bg="surface" pad="md">
+    <div class="opt-head">
+      <p class="eyebrow"><Icon name="sparkles" size={16} /> Often added</p>
+      <h2>Two more, where the site invites them</h2>
+      <p>The layer count is a design convention, not a law. Where there's rich soil life or standing water, these earn their place too.</p>
+    </div>
+    <div class="opt-grid">
+      {optional.map((layer) => (
+        <div class="opt-card" data-animate>
+          <span class="l-ico"><Icon name={layer.data.icon} size={24} /></span>
+          <h3>{layer.data.name}</h3>
+          <p class="tag">{layer.data.tagline}</p>
+          <p class="desc">{layer.body?.split('\n\n')[0]}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section width="narrow" pad="md" class="cta-row">
+    <h2>Layers give it structure. Guilds give it life.</h2>
+    <p>Once you can picture the vertical stack, the next step is choosing plants that support each other within it.</p>
+    <div class="btns">
+      <Button href="/learn/guilds-and-companion-planting" variant="primary" icon="arrow-right">Learn about guilds</Button>
+      <Button href="/start" variant="ghost">Start your own</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .layers { list-style: none; margin: 0; padding: 0; }
+  .layer { display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .marker { display: flex; flex-direction: column; align-items: center; }
+  .num {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--primary-ink);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+  .line { flex: 1; width: 2px; background: var(--edge); margin: 0.4rem 0; }
+  .layer:last-child .line { display: none; }
+  .content {
+    padding-bottom: 2.2rem;
+    min-width: 0;
+  }
+  .l-top { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+  .l-ico {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    flex: none;
+    border-radius: 0.9rem;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+  }
+  .l-top h2 { font-size: 1.5rem; margin: 0; }
+  .l-top .tag { margin: 0.1rem 0 0; color: var(--accent); font-size: 0.92rem; font-weight: 600; }
+  .height {
+    margin-left: auto;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    background: var(--surface-2);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+  .desc { margin: 0.9rem 0 0; color: var(--muted-fg); line-height: 1.6; }
+  .species {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+    padding: 0;
+  }
+  .species li {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    color: var(--text);
+  }
+
+  .opt-head { max-width: 40rem; margin: 0 auto 2rem; text-align: center; }
+  .opt-head h2 { font-size: 1.9rem; margin: 0 0 0.5rem; }
+  .opt-head p { margin: 0; color: var(--muted-fg); }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .opt-grid { display: grid; grid-template-columns: 1fr; gap: 1.4rem; max-width: 46rem; margin: 0 auto; }
+  .opt-card {
+    padding: 1.6rem;
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    border-radius: 1.1rem;
+  }
+  .opt-card .l-ico { margin-bottom: 0.8rem; }
+  .opt-card h3 { font-size: 1.3rem; margin: 0; }
+  .opt-card .tag { margin: 0.15rem 0 0; color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+  .opt-card .desc { margin-top: 0.7rem; }
+
+  .cta-row { text-align: center; }
+  .cta-row h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 0 0 0.6rem; }
+  .cta-row p { color: var(--muted-fg); font-size: 1.1rem; margin: 0 0 1.6rem; }
+  .btns { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+  @media (min-width: 640px) {
+    .opt-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+import { resourceGroups } from '../data/resources.ts';
+
+const levelLabel: Record<string, string> = {
+  beginner: 'Beginner',
+  intermediate: 'Intermediate',
+  reference: 'Reference',
+};
+---
+<BaseLayout title="Resources" description="The best books, films, organizations, and courses for going deeper into food forests, permaculture, and regenerative agriculture.">
+  <PageHeader
+    eyebrow="Go deeper"
+    icon="book-open"
+    title="Books, films & good company"
+    lede="A hand-picked shelf to carry you further — from the friendliest first read to the field-defining manuals, plus the films and communities that keep the spark alive."
+  />
+
+  {resourceGroups.map((group) => (
+    <Section pad="md">
+      <div class="group-head">
+        <span class="g-ico"><Icon name={group.icon} size={24} /></span>
+        <div>
+          <h2>{group.kind}</h2>
+          <p>{group.blurb}</p>
+        </div>
+      </div>
+      <div class="grid">
+        {group.items.map((item) => (
+          <a class="res" href={item.url} target="_blank" rel="noopener noreferrer" data-animate>
+            <div class="res-top">
+              <h3>{item.title}</h3>
+              <Icon name="external" size={16} class="ext" />
+            </div>
+            {item.by && <p class="by">{item.by}</p>}
+            <p class="note">{item.note}</p>
+            {item.level && <span class="level">{levelLabel[item.level]}</span>}
+          </a>
+        ))}
+      </div>
+    </Section>
+  ))}
+</BaseLayout>
+
+<style>
+  .group-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
+  .g-ico {
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    flex: none;
+    border-radius: 0.9rem;
+    color: var(--primary-ink);
+    background: var(--primary);
+  }
+  .group-head h2 { font-size: 1.7rem; margin: 0; }
+  .group-head p { margin: 0.1rem 0 0; color: var(--muted-fg); }
+
+  .grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
+  .res {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 1.1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .res:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--primary) 40%, var(--edge));
+  }
+  .res-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+  .res h3 { font-size: 1.18rem; margin: 0; line-height: 1.25; }
+  .res .ext { color: var(--muted-fg); flex: none; margin-top: 0.2rem; }
+  .by { margin: 0; font-size: 0.88rem; font-weight: 600; color: var(--accent); }
+  .note { margin: 0.3rem 0 0; color: var(--muted-fg); font-size: 0.96rem; line-height: 1.55; }
+  .level {
+    align-self: flex-start;
+    margin-top: 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+  }
+
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 980px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

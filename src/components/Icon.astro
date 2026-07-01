@@ -1,0 +1,69 @@
+---
+// Self-contained inline SVG icons (Lucide-style, 24x24, stroke-based).
+// No icon-library dependency; unknown names fall back to `leaf`.
+interface Props {
+  name: string;
+  size?: number | string;
+  class?: string;
+  stroke?: number;
+  'aria-hidden'?: boolean;
+}
+const { name, size = 24, class: className = '', stroke = 1.75, ...rest } = Astro.props;
+
+const paths: Record<string, string> = {
+  leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/>',
+  sprout: '<path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8Z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2Z"/>',
+  seedling: '<path d="M12 22V12"/><path d="M12 12C12 8 9 6 4 6c0 4 3 6 8 6Z"/><path d="M12 12c0-3 2.5-5 6-5 0 3-2.5 5-6 5Z"/>',
+  tree: '<path d="M12 22v-7"/><path d="M9 15a5 5 0 1 1 6 0 3.5 3.5 0 0 1-3 1 3.5 3.5 0 0 1-3-1Z"/><path d="M12 8a4 4 0 0 0-4-4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4 4Z"/>',
+  bush: '<path d="M12 21v-4"/><path d="M8 17a4 4 0 0 1-1.5-7.7A4 4 0 0 1 12 5a4 4 0 0 1 5.5 4.3A4 4 0 0 1 16 17Z"/>',
+  carrot: '<path d="m2 22 8-8"/><path d="M18 3a3 3 0 0 0-3 3c0 1 .5 2 .5 2S13 9 12 12s-4 6-4 6l4 2s3-3 5-6 3-4 3-4-1 .5-2 .5a3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/>',
+  droplets: '<path d="M7 16.3a4 4 0 0 0 5.6-5.6C11 8.6 7 3 7 3S3 8.6 1.4 10.7A4 4 0 0 0 7 16.3Z" transform="translate(3 2) scale(0.7)"/><path d="M16 21a4 4 0 0 0 3.3-6.2C17.8 12.6 14 8 14 8s-3.8 4.6-5.3 6.8A4 4 0 0 0 12 21Z" transform="translate(0 0) scale(0.85)"/>',
+  flower: '<circle cx="12" cy="12" r="2.5"/><path d="M12 9.5V5a2.5 2.5 0 0 0-5 0c0 1.5 2.5 4.5 2.5 4.5"/><path d="M14.5 12H19a2.5 2.5 0 0 0 0-5c-1.5 0-4.5 2.5-4.5 2.5"/><path d="M12 14.5V19a2.5 2.5 0 0 0 5 0c0-1.5-2.5-4.5-2.5-4.5"/><path d="M9.5 12H5a2.5 2.5 0 0 0 0 5c1.5 0 4.5-2.5 4.5-2.5"/>',
+  wheat: '<path d="M12 22V8"/><path d="M12 8c-2-1-3-3-3-5 2 0 4 1 5 3"/><path d="M12 8c2-1 3-3 3-5-2 0-4 1-5 3"/><path d="M12 13c-2-1-3-3-3-5 2 0 4 1 5 3"/><path d="M12 13c2-1 3-3 3-5-2 0-4 1-5 3"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  wind: '<path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/>',
+  waves: '<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 1.3 0 1.9-.5 2.5-1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 1.3 0 1.9-.5 2.5-1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 1.3 0 1.9-.5 2.5-1"/>',
+  recycle: '<path d="M7 19H4.8a2 2 0 0 1-1.7-3l1.2-2"/><path d="m8 22 3-3-3-3"/><path d="M12.3 5.3 11 3.4a2 2 0 0 0-3.4.1L6.3 5.6"/><path d="M17 9.5 18.2 7a2 2 0 0 0-1.7-3H14"/><path d="m14 2 3 3-3 3"/><path d="M19.5 12 21 14.5a2 2 0 0 1-1.7 3.1H16"/>',
+  sparkles: '<path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6Z"/><path d="M19 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z"/><path d="M5 15l.6 1.6L7 17l-1.4.5L5 19l-.6-1.5L3 17l1.4-.4Z"/>',
+  apple: '<path d="M12 7c-1.5-2-4-2.5-5.5-1C4.5 7.5 4 11 6 15c1.2 2.4 2.5 4 4 4 1 0 1.3-.5 2-.5s1 .5 2 .5c1.5 0 2.8-1.6 4-4 2-4 1.5-7.5-.5-9-1.5-1.5-4-1-5.5 1Z"/><path d="M12 7c0-2 .5-3.5 2-4.5"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/>',
+  heart: '<path d="M19 14c1.5-1.5 3-3.3 3-5.5A5.5 5.5 0 0 0 12 5 5.5 5.5 0 0 0 2 8.5c0 2.2 1.5 4 3 5.5l7 7Z"/>',
+  eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/>',
+  network: '<rect x="9" y="2" width="6" height="6" rx="1.5"/><rect x="2" y="16" width="6" height="6" rx="1.5"/><rect x="16" y="16" width="6" height="6" rx="1.5"/><path d="M12 8v3M12 11H5v5M12 11h7v5"/>',
+  compass: '<circle cx="12" cy="12" r="10"/><path d="m16 8-2 6-6 2 2-6Z"/>',
+  layers: '<path d="m12 2 9 5-9 5-9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  'map-pin': '<path d="M20 10c0 5-8 12-8 12s-8-7-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+  ruler: '<path d="M3 15 15 3l6 6L9 21Z"/><path d="m8 8 2 2M11 5l2 2M5 11l2 2"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>',
+  'book-open': '<path d="M12 7v14"/><path d="M3 5v13a1 1 0 0 0 1 1h6a2 2 0 0 1 2 2 2 2 0 0 1 2-2h6a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3H4a1 1 0 0 0-1 1Z"/>',
+  film: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M17 8h4M3 12h18M3 16h4M17 16h4"/>',
+  'graduation-cap': '<path d="M22 9 12 5 2 9l10 4 10-4Z"/><path d="M6 10.6V16a6 3 0 0 0 12 0v-5.4"/><path d="M22 9v5"/>',
+  'arrow-right': '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  'arrow-left': '<path d="M19 12H5M11 18l-6-6 6-6"/>',
+  external: '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+  'chevron-right': '<path d="m9 6 6 6-6 6"/>',
+  menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+  x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  github: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-1-2.6c3-.3 6-1.5 6-6.6a5.1 5.1 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.6 1.4a12.3 12.3 0 0 0-6.6 0C6.7 1.3 5.6 1.6 5.6 1.6a4.8 4.8 0 0 0-.1 3.6A5.1 5.1 0 0 0 4 8.8c0 5.1 3 6.3 6 6.6a3.4 3.4 0 0 0-1 2.6V22"/>',
+  mountain: '<path d="m8 3 4 8 5-5 5 14H2L8 3Z"/>',
+};
+
+const d = paths[name] ?? paths.leaf;
+const px = typeof size === 'number' ? `${size}px` : size;
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={px}
+  height={px}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={`icon ${className}`}
+  aria-hidden={rest['aria-hidden'] ?? true}
+  set:html={d}
+/>

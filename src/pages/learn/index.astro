@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Section from '../../components/Section.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+
+const categories = [
+  { key: 'basics', label: 'Getting started', blurb: 'What a food forest is, and how to begin.' },
+  { key: 'design', label: 'Design', blurb: 'Ethics, principles, guilds, and how it all fits together.' },
+  { key: 'plants', label: 'Plants', blurb: 'The species that make a forest feed itself.' },
+  { key: 'regenerative', label: 'Regenerative', blurb: 'How food forests sit within the wider soil movement.' },
+] as const;
+
+const all = (await getCollection('articles'))
+  .filter((a) => !a.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const byCategory = categories
+  .map((c) => ({ ...c, items: all.filter((a) => a.data.category === c.key) }))
+  .filter((c) => c.items.length > 0);
+---
+<BaseLayout title="Learn" description="Friendly, practical guides to food forests, permaculture, and regenerative growing.">
+  <PageHeader
+    eyebrow="Learn"
+    icon="book-open"
+    title="From curious to planting"
+    lede="Short, warm reads that build from first principles to your first guild. No jargon, no gatekeeping — just the good stuff."
+  />
+  {byCategory.map((cat) => (
+    <Section pad="md">
+      <div class="cat-head">
+        <h2>{cat.label}</h2>
+        <p>{cat.blurb}</p>
+      </div>
+      <div class="grid">
+        {cat.items.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </Section>
+  ))}
+</BaseLayout>
+
+<style>
+  .cat-head { margin-bottom: 1.6rem; }
+  .cat-head h2 { font-size: 1.7rem; margin: 0 0 0.3rem; }
+  .cat-head p { margin: 0; color: var(--muted-fg); }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

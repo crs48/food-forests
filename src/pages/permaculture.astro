@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import { ethics, principles } from '../data/principles.ts';
+---
+<BaseLayout title="Permaculture" description="The three ethics and twelve design principles that food forests grow from — Mollison & Holmgren's blueprint for working with nature.">
+  <PageHeader
+    eyebrow="The philosophy"
+    icon="compass"
+    title="How permaculture works"
+    lede="Food forests are one expression of permaculture — a way of designing human systems to last, developed by Bill Mollison and David Holmgren in the 1970s. It rests on three ethics and twelve design principles."
+  />
+
+  <Section width="default" pad="md">
+    <div class="sec-head">
+      <p class="eyebrow"><Icon name="heart" size={16} /> The three ethics</p>
+      <h2>Where every design begins</h2>
+    </div>
+    <div class="ethics">
+      {ethics.map((ethic) => (
+        <div class="ethic" data-animate>
+          <span class="ico"><Icon name={ethic.icon} size={28} /></span>
+          <h3>{ethic.title}</h3>
+          <p class="short">{ethic.short}</p>
+          <p>{ethic.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section bg="surface" pad="md">
+    <div class="sec-head">
+      <p class="eyebrow"><Icon name="layers" size={16} /> The twelve principles</p>
+      <h2>Twelve lenses for a good design</h2>
+      <p class="sec-lede">
+        Holmgren paired each principle with a folk proverb. They aren't a
+        checklist so much as ways of looking at a problem until a good design
+        reveals itself.
+      </p>
+    </div>
+    <ol class="principles">
+      {principles.map((p) => (
+        <li class="principle" data-animate>
+          <div class="p-head">
+            <span class="p-num">{p.number}</span>
+            <span class="p-ico"><Icon name={p.icon} size={22} /></span>
+          </div>
+          <h3>{p.title}</h3>
+          <p class="proverb">“{p.proverb}”</p>
+          <p class="gloss">{p.gloss}</p>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section width="narrow" pad="md" class="cta-row">
+    <h2>Principles into practice</h2>
+    <p>The clearest way to feel these ideas is to plant them. Start with a single guild and watch the principles come alive.</p>
+    <div class="btns">
+      <Button href="/start" variant="primary" icon="arrow-right">Start growing</Button>
+      <Button href="/learn/permaculture-ethics-and-principles" variant="ghost">Read the primer</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .sec-head { max-width: 40rem; margin: 0 auto 2.4rem; text-align: center; }
+  .sec-head h2 { font-size: clamp(1.8rem, 4vw, 2.4rem); margin: 0; }
+  .sec-lede { margin: 0.8rem 0 0; color: var(--muted-fg); font-size: 1.1rem; line-height: 1.6; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .ethics { display: grid; grid-template-columns: 1fr; gap: 1.4rem; }
+  .ethic {
+    padding: 1.8rem;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 1.2rem;
+    text-align: center;
+  }
+  .ethic .ico {
+    display: inline-grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    color: var(--primary-ink);
+    background: var(--primary);
+    margin-bottom: 0.8rem;
+  }
+  .ethic h3 { font-size: 1.5rem; margin: 0; }
+  .ethic .short { margin: 0.2rem 0 0.8rem; color: var(--accent); font-weight: 600; }
+  .ethic p:last-child { margin: 0; color: var(--muted-fg); line-height: 1.55; }
+
+  .principles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .principle {
+    padding: 1.5rem;
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    border-radius: 1.1rem;
+  }
+  .p-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+  .p-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1;
+    color: color-mix(in oklab, var(--primary) 45%, transparent);
+  }
+  .p-ico {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.8rem;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+  }
+  .principle h3 { font-size: 1.2rem; margin: 0 0 0.4rem; }
+  .proverb { margin: 0 0 0.6rem; font-style: italic; color: var(--accent); font-size: 0.95rem; }
+  .gloss { margin: 0; color: var(--muted-fg); font-size: 0.96rem; line-height: 1.55; }
+
+  .cta-row { text-align: center; }
+  .cta-row h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 0 0 0.6rem; }
+  .cta-row p { color: var(--muted-fg); font-size: 1.1rem; margin: 0 0 1.6rem; }
+  .btns { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+  @media (min-width: 720px) {
+    .ethics { grid-template-columns: repeat(3, 1fr); }
+    .principles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .principles { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

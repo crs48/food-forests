@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Section from '../../components/Section.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+
+const regions = [
+  { key: 'north-america', label: 'North America' },
+  { key: 'europe', label: 'Europe' },
+  { key: 'latin-america', label: 'Latin America' },
+  { key: 'oceania', label: 'Oceania' },
+  { key: 'asia', label: 'Asia' },
+  { key: 'africa', label: 'Africa' },
+] as const;
+
+const projects = (await getCollection('foodForests')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name),
+);
+const grouped = regions
+  .map((r) => ({ ...r, items: projects.filter((p) => p.data.region === r.key) }))
+  .filter((r) => r.items.length > 0);
+---
+<BaseLayout title="Real Projects" description="Food forests and regenerative farms around the world — the places and people proving it works.">
+  <PageHeader
+    eyebrow="In the world"
+    icon="map-pin"
+    title="Food forests, growing now"
+    lede="These are real places you could visit — public commons, research gardens, and regenerated rainforests. Proof that a forest you can eat is not a fantasy, but a harvest."
+  />
+
+  {grouped.map((region) => (
+    <Section pad="md">
+      <div class="region-head">
+        <h2>{region.label}</h2>
+        <span class="count">{region.items.length}</span>
+      </div>
+      <div class="grid">
+        {region.items.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </Section>
+  ))}
+</BaseLayout>
+
+<style>
+  .region-head { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .region-head h2 { font-size: 1.7rem; margin: 0; }
+  .count {
+    display: grid;
+    place-items: center;
+    min-width: 1.8rem;
+    height: 1.8rem;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 14%, transparent);
+  }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 1.4rem; }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

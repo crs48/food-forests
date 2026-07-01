@@ -472,54 +472,54 @@ export const href = (path = '') =>
 
 ## Implementation Checklist
 
-- [ ] Scaffold Astro 6 project: `package.json` (scripts: dev/build with
+- [x] Scaffold Astro 6 project: `package.json` (scripts: dev/build with
       `astro check && astro build`/preview), `astro.config.mjs`
       (`site`+`base`+sitemap+Tailwind vite plugin), `tsconfig.json`,
       `.gitignore` (node_modules, dist, .astro, .claude), `.nvmrc` (22.16.0).
-- [ ] Install deps: `astro`, `@tailwindcss/vite`, `tailwindcss`,
+- [x] Install deps: `astro`, `@tailwindcss/vite`, `tailwindcss`,
       `@astrojs/sitemap`, `@astrojs/rss`, `@fontsource-variable/fraunces`,
       `@fontsource-variable/nunito-sans`, `sharp`.
-- [ ] Design system: `src/styles/global.css` with Sunlit Meadow `@theme`
+- [x] Design system: `src/styles/global.css` with Sunlit Meadow `@theme`
       tokens, semantic aliases, Forest Canopy dark mode, reduced-motion guard,
       base typography + prose styles.
-- [ ] `src/lib/url.ts` base-path-safe `href()` helper + `src/lib/site.ts`
+- [x] `src/lib/url.ts` base-path-safe `href()` helper + `src/lib/site.ts`
       site metadata (title, description, nav, social).
-- [ ] `BaseLayout.astro`: `<head>` SEO (title/description/OG/canonical),
+- [x] `BaseLayout.astro`: `<head>` SEO (title/description/OG/canonical),
       fonts, `<ClientRouter />`, skip-link, `global.css` import; slots.
-- [ ] `Header.astro` (sticky nav, mobile menu, base-safe links) +
+- [x] `Header.astro` (sticky nav, mobile menu, base-safe links) +
       `Footer.astro` (nav, credits link, tagline).
-- [ ] Reusable components: `Button.astro`, `Card.astro`, `SectionDivider.astro`
+- [x] Reusable components: `Button.astro`, `Card.astro`, `SectionDivider.astro`
       (organic SVG, `preserveAspectRatio="none"`), `Prose.astro`,
       `Leaf`/`Icon` helper (Lucide/Phosphor inline SVG), `Hero.astro`.
-- [ ] `src/content.config.ts` with `articles`, `foodForests`, `layers`
+- [x] `src/content.config.ts` with `articles`, `foodForests`, `layers`
       collections (zod schemas, `astro/zod` import).
-- [ ] Seed `layers` content: all 7 layers (+ note on fungal/aquatic 8th/9th),
+- [x] Seed `layers` content: all 7 layers (+ note on fungal/aquatic 8th/9th),
       with height ranges and example species.
-- [ ] Seed `foodForests` content: the 9 verified profiles with accurate
+- [x] Seed `foodForests` content: the 9 verified profiles with accurate
       facts + accuracy flags (Browns Mill = largest US; Savory contested;
       Götsch Swiss-born) and source links.
-- [ ] Seed `articles` content: ≥5 starter articles (what is a food forest;
+- [x] Seed `articles` content: ≥5 starter articles (what is a food forest;
       the seven layers; permaculture ethics & principles; guilds & companion
       planting; regenerative vs permaculture; start small).
-- [ ] Data modules: `src/data/principles.ts` (3 ethics + Holmgren's 12 with
+- [x] Data modules: `src/data/principles.ts` (3 ethics + Holmgren's 12 with
       proverbs) and `src/data/resources.ts` (books/films/orgs/courses).
-- [ ] Home page `/`: hero, "what is a food forest", seven-layers preview,
+- [x] Home page `/`: hero, "what is a food forest", seven-layers preview,
       featured projects, principles teaser, "start your own" CTA, closing.
-- [ ] Learn hub `/learn` (article index, grouped by category) + `/learn/[slug]`
+- [x] Learn hub `/learn` (article index, grouped by category) + `/learn/[slug]`
       dynamic article pages (`getStaticPaths` + `render()`), with prose styling.
-- [ ] `/layers` page: visual, ordered walkthrough of the seven layers.
-- [ ] `/permaculture` page: 3 ethics + 12 principles (from data module).
-- [ ] `/projects` index + `/projects/[slug]` profile pages (facts panel,
+- [x] `/layers` page: visual, ordered walkthrough of the seven layers.
+- [x] `/permaculture` page: 3 ethics + 12 principles (from data module).
+- [x] `/projects` index + `/projects/[slug]` profile pages (facts panel,
       summary, website + source links).
-- [ ] `/start` page: beginner on-ramp (observe → sun/water/soil → zone →
+- [x] `/start` page: beginner on-ramp (observe → sun/water/soil → zone →
       guild → start small → patience), linking to articles.
-- [ ] `/resources` page (books/films/orgs/courses from data) + `/about` +
+- [x] `/resources` page (books/films/orgs/courses from data) + `/about` +
       `/credits` (image + content attributions) + custom `/404`.
-- [ ] SEO plumbing: `@astrojs/sitemap`, `src/pages/rss.xml.js` feed,
+- [x] SEO plumbing: `@astrojs/sitemap`, `src/pages/rss.xml.js` feed,
       `public/robots.txt`, `public/favicon.svg`, per-page OG metadata.
-- [ ] `.github/workflows/deploy.yml` using `withastro/action@v6` +
+- [x] `.github/workflows/deploy.yml` using `withastro/action@v6` +
       `actions/deploy-pages@v5` (triggers on push to `main`).
-- [ ] Pretty `README.md`: hero blurb, screenshots/placeholder, live URL,
+- [x] Pretty `README.md`: hero blurb, screenshots/placeholder, live URL,
       local-dev (nvm note), content-authoring guide, tech stack, license,
       credits pointer.
 - [ ] Create GitHub repo `crs48/food-forests`, push, set Pages source to
@@ -527,21 +527,21 @@ export const href = (path = '') =>
 
 ## Validation Checklist
 
-- [ ] `nvm use 22.16.0 && npm run build` completes with **no errors**
+- [x] `nvm use 22.16.0 && npm run build` completes with **no errors**
       (`astro check` clean, `dist/` produced).
-- [ ] `npm run preview` serves the site and every nav route renders (home,
+- [x] `npm run preview` serves the site and every nav route renders (home,
       learn + an article, layers, permaculture, projects + a profile, start,
       resources, about, credits, 404).
-- [ ] No broken internal links: built HTML has no hardcoded `href="/..."`
+- [x] No broken internal links: built HTML has no hardcoded `href="/..."`
       that bypasses the `/food-forests/` base (spot-check + grep `dist/`).
-- [ ] Content accuracy spot-check: Browns Mill labeled largest US public food
+- [x] Content accuracy spot-check: Browns Mill labeled largest US public food
       forest; seven layers present with fungal/aquatic note; 12 principles
       match Holmgren; Savory framed as contested.
-- [ ] Accessibility sanity: AA contrast holds (Sunlit Meadow), images have
+- [x] Accessibility sanity: AA contrast holds (Sunlit Meadow), images have
       `alt`, there's a skip-link, headings are ordered, focus states visible.
-- [ ] Dark mode renders correctly under `prefers-color-scheme: dark`; motion
+- [x] Dark mode renders correctly under `prefers-color-scheme: dark`; motion
       is suppressed under `prefers-reduced-motion: reduce`.
-- [ ] `sitemap-index.xml`, `rss.xml`, and `robots.txt` are emitted in `dist/`.
+- [x] `sitemap-index.xml`, `rss.xml`, and `robots.txt` are emitted in `dist/`.
 - [ ] The GitHub Actions **deploy workflow succeeds** and the site is live at
       `https://crs48.github.io/food-forests/` with working styling + links.
 

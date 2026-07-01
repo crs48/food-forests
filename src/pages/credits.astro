@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Icon from '../components/Icon.astro';
+
+// As real photography is added, list each attribution here (TASL: Title,
+// Author, Source, License). Direct downloads from Unsplash/Pexels/Pixabay
+// need no attribution but are welcome to be credited anyway.
+const credits: { title: string; author: string; source: string; sourceUrl: string; license: string; licenseUrl: string }[] = [];
+
+const sources = [
+  { name: 'Unsplash', note: 'Free photos, no attribution required. Grants copyright only — not model releases.', url: 'https://unsplash.com/license' },
+  { name: 'Pexels', note: 'Free photos & video, no attribution required.', url: 'https://www.pexels.com/license/' },
+  { name: 'Pixabay', note: 'Free media, no attribution required (even via API).', url: 'https://pixabay.com/service/license-summary/' },
+  { name: 'Openverse', note: 'Search across CC-licensed media; generates ready-made TASL attributions.', url: 'https://openverse.org/' },
+  { name: 'Wikimedia Commons', note: 'Mostly CC-BY / CC-BY-SA; credit the original creator.', url: 'https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia' },
+  { name: 'Biodiversity Heritage Library', note: '150,000+ public-domain (CC0) botanical illustrations.', url: 'https://www.flickr.com/photos/biodivlibrary/' },
+];
+---
+<BaseLayout title="Image Credits" description="How imagery on this site is sourced and licensed, with attributions for any Creative Commons works used.">
+  <PageHeader
+    eyebrow="Attribution"
+    icon="heart"
+    title="Image credits & licensing"
+    lede="We believe in giving credit where it's due. Here's how the imagery on this site is sourced, and thanks to everyone whose work appears here."
+  />
+
+  <Section width="narrow" pad="md">
+    <div class="prose">
+      <p>
+        The artwork you see right now — the gradients, the layered hills, the
+        botanical marks — is <strong>original SVG and CSS</strong>, made for this
+        site. No third-party photographs are used yet, so nothing here requires
+        attribution.
+      </p>
+      <p>
+        As we add real photography, every image that needs it will be credited
+        below using the <strong>TASL</strong> convention (Title, Author, Source,
+        License). Photos from Unsplash, Pexels, and Pixabay don't legally require
+        attribution, but we like to thank photographers anyway.
+      </p>
+    </div>
+
+    {credits.length > 0 ? (
+      <ul class="credit-list">
+        {credits.map((c) => (
+          <li>
+            <a href={c.sourceUrl} target="_blank" rel="noopener noreferrer">“{c.title}”</a>
+            by {c.author} · via {c.source} ·
+            <a href={c.licenseUrl} target="_blank" rel="noopener noreferrer">{c.license}</a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="empty">
+        <Icon name="sparkles" size={22} />
+        <p>No third-party images in use yet — everything is home-grown.</p>
+      </div>
+    )}
+  </Section>
+
+  <Section bg="surface" pad="md">
+    <h2 class="sources-title">Where we source imagery</h2>
+    <div class="sources">
+      {sources.map((s) => (
+        <a class="source" href={s.url} target="_blank" rel="noopener noreferrer">
+          <div class="s-top">
+            <h3>{s.name}</h3>
+            <Icon name="external" size={15} />
+          </div>
+          <p>{s.note}</p>
+        </a>
+      ))}
+    </div>
+    <p class="fine">
+      A note on people: stock licenses grant copyright, not model releases. We
+      favour imagery of plants, soil, and landscapes over identifiable faces, and
+      never imply anyone endorses this project.
+    </p>
+  </Section>
+</BaseLayout>
+
+<style>
+  .credit-list { list-style: none; padding: 0; margin: 1.5rem 0 0; display: flex; flex-direction: column; gap: 0.8rem; }
+  .credit-list li { color: var(--muted-fg); }
+  .empty {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    padding: 1.2rem 1.4rem;
+    border: 1px dashed var(--edge);
+    border-radius: 1rem;
+    color: var(--muted-fg);
+  }
+  .empty p { margin: 0; }
+  .empty :global(.icon) { color: var(--accent); flex: none; }
+
+  .sources-title { font-size: 1.5rem; margin: 0 0 1.5rem; text-align: center; }
+  .sources { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 46rem; margin: 0 auto; }
+  .source {
+    padding: 1.2rem 1.4rem;
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    border-radius: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .source:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--primary) 40%, var(--edge)); }
+  .s-top { display: flex; align-items: center; justify-content: space-between; }
+  .s-top h3 { font-size: 1.1rem; margin: 0; }
+  .s-top :global(.icon) { color: var(--muted-fg); }
+  .source p { margin: 0.3rem 0 0; font-size: 0.92rem; color: var(--muted-fg); line-height: 1.5; }
+  .fine { max-width: 40rem; margin: 1.8rem auto 0; text-align: center; font-size: 0.92rem; color: var(--muted-fg); }
+
+  @media (min-width: 640px) { .sources { grid-template-columns: 1fr 1fr; } }
+</style>

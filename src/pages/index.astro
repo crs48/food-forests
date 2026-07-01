@@ -1,0 +1,435 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import Card from '../components/Card.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import { ethics } from '../data/principles.ts';
+import { href } from '../lib/url.ts';
+
+const layers = (await getCollection('layers'))
+  .filter((l) => !l.data.optional)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const featured = (await getCollection('foodForests'))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.name.localeCompare(b.data.name))
+  .slice(0, 3);
+
+const articles = (await getCollection('articles'))
+  .filter((a) => !a.data.draft)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="kicker" data-animate>
+        <Icon name="sun" size={16} /> Regenerative · Perennial · Hopeful
+      </p>
+      <h1 data-animate>Grow a forest<br />you can eat.</h1>
+      <p class="sub" data-animate>
+        Food forests turn a patch of ground into a living, layered ecosystem —
+        one that feeds people, heals soil, and mostly tends itself. Come learn
+        how they work, and meet the people already growing them.
+      </p>
+      <div class="cta" data-animate>
+        <Button href="/start" variant="primary" size="lg" icon="arrow-right">Start growing</Button>
+        <Button href="/learn" variant="ghost" size="lg">Learn the basics</Button>
+      </div>
+    </div>
+    <div class="hero-scene" aria-hidden="true">
+      <svg viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,160 C240,90 480,200 720,150 C960,100 1200,190 1440,140 L1440,320 L0,320 Z" fill="color-mix(in oklab, var(--color-leaf) 55%, var(--color-cream))"/>
+        <path d="M0,220 C260,160 520,250 780,210 C1040,170 1260,240 1440,200 L1440,320 L0,320 Z" fill="color-mix(in oklab, var(--color-forest) 65%, var(--color-leaf))"/>
+        <path d="M0,270 C300,230 560,290 840,260 C1120,230 1280,280 1440,255 L1440,320 L0,320 Z" fill="#223019"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- What is a food forest -->
+  <Section width="default" pad="lg">
+    <div class="intro">
+      <div class="intro-copy">
+        <p class="eyebrow"><Icon name="leaf" size={16} /> The idea</p>
+        <h2>A garden that grows like a woodland</h2>
+        <p>
+          Instead of tidy rows you replant each spring, a food forest layers
+          trees, shrubs, herbs, roots, and vines into one self-supporting
+          community. Diversity does the work that chemicals and tilling do
+          elsewhere — and once it's established, the harvest goes up while the
+          labour goes down.
+        </p>
+        <p>
+          It's an old idea, drawn from tropical home gardens and Indigenous
+          polycultures, and it's quietly radical: an ecosystem designed to be
+          generous.
+        </p>
+        <Button href="/learn/what-is-a-food-forest" variant="secondary" icon="arrow-right">
+          Read the introduction
+        </Button>
+      </div>
+      <ul class="pillars">
+        <li>
+          <span class="p-ico"><Icon name="recycle" size={22} /></span>
+          <div><strong>Perennial</strong><span>Plant once, harvest for years.</span></div>
+        </li>
+        <li>
+          <span class="p-ico"><Icon name="layers" size={22} /></span>
+          <div><strong>Layered</strong><span>Seven tiers sharing the same ground.</span></div>
+        </li>
+        <li>
+          <span class="p-ico"><Icon name="flower" size={22} /></span>
+          <div><strong>Diverse</strong><span>A polyculture that's resilient by design.</span></div>
+        </li>
+        <li>
+          <span class="p-ico"><Icon name="sprout" size={22} /></span>
+          <div><strong>Self-sustaining</strong><span>Feeds its own soil and pollinators.</span></div>
+        </li>
+      </ul>
+    </div>
+  </Section>
+
+  <SectionDivider variant="hill" fill="var(--surface)" />
+
+  <!-- Seven layers preview -->
+  <Section bg="surface" pad="lg">
+    <div class="sec-head">
+      <p class="eyebrow"><Icon name="trees" size={16} /> Structure</p>
+      <h2>The seven layers</h2>
+      <p class="sec-lede">
+        A food forest fills every level of space, from the canopy overhead to the
+        roots and fungi below. Here's the vertical stack that makes it work.
+      </p>
+    </div>
+    <ol class="layer-strip">
+      {layers.map((layer) => (
+        <li>
+          <a href={href('/layers')}>
+            <span class="l-ico"><Icon name={layer.data.icon} size={24} /></span>
+            <span class="l-name">{layer.data.name}</span>
+            <span class="l-height">{layer.data.heightRange}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <div class="center">
+      <Button href="/layers" variant="secondary" icon="arrow-right">Walk through every layer</Button>
+    </div>
+  </Section>
+
+  <SectionDivider variant="wave" fill="var(--bg)" />
+
+  <!-- Featured projects -->
+  <Section pad="lg">
+    <div class="sec-head">
+      <p class="eyebrow"><Icon name="map-pin" size={16} /> In the world</p>
+      <h2>People already growing them</h2>
+      <p class="sec-lede">
+        From a public food forest in Seattle to a regrown rainforest in Brazil —
+        real places, real harvests, real proof that this works.
+      </p>
+    </div>
+    <div class="grid-3">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+    <div class="center">
+      <Button href="/projects" variant="secondary" icon="arrow-right">Explore all the projects</Button>
+    </div>
+  </Section>
+
+  <!-- Ethics teaser -->
+  <Section bg="surface-2" pad="lg" class="ethics-band">
+    <div class="sec-head">
+      <p class="eyebrow"><Icon name="heart" size={16} /> The compass</p>
+      <h2>Three ethics beneath it all</h2>
+      <p class="sec-lede">
+        Permaculture — the design philosophy food forests grow from — rests on
+        three simple commitments.
+      </p>
+    </div>
+    <div class="grid-3">
+      {ethics.map((ethic) => (
+        <Card animate={true} class="ethic">
+          <div class="ethic-body">
+            <span class="e-ico"><Icon name={ethic.icon} size={26} /></span>
+            <h3>{ethic.title}</h3>
+            <p>{ethic.body}</p>
+          </div>
+        </Card>
+      ))}
+    </div>
+    <div class="center">
+      <Button href="/permaculture" variant="secondary" icon="arrow-right">
+        See the twelve principles
+      </Button>
+    </div>
+  </Section>
+
+  <!-- Learn teaser -->
+  <Section pad="lg">
+    <div class="sec-head">
+      <p class="eyebrow"><Icon name="book-open" size={16} /> Learn</p>
+      <h2>Start with the basics</h2>
+      <p class="sec-lede">Short, friendly reads to get you from curious to planting.</p>
+    </div>
+    <div class="grid-3">
+      {articles.map((article) => <ArticleCard article={article} />)}
+    </div>
+    <div class="center">
+      <Button href="/learn" variant="secondary" icon="arrow-right">Browse the library</Button>
+    </div>
+  </Section>
+
+  <!-- Final CTA -->
+  <section class="final-cta">
+    <div class="cta-card">
+      <span class="cta-ico"><Icon name="seedling" size={34} stroke={1.6} /></span>
+      <h2>Your forest starts with one tree.</h2>
+      <p>
+        You don't need land or a grand plan — just a corner, a little patience,
+        and one guild to begin. We'll show you how.
+      </p>
+      <Button href="/start" variant="primary" size="lg" icon="arrow-right">Plant your first guild</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(90% 70% at 80% 0%, color-mix(in oklab, var(--color-honey) 30%, transparent), transparent 60%),
+      radial-gradient(70% 60% at 0% 10%, color-mix(in oklab, var(--color-sky) 22%, transparent), transparent 55%),
+      linear-gradient(180deg, var(--hero-from), var(--hero-to));
+    overflow: hidden;
+    padding: clamp(3.5rem, 8vw, 6.5rem) 0 0;
+  }
+  .hero-inner {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 0 1.25rem clamp(7rem, 18vw, 12rem);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1.2rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    border: 1px solid var(--edge);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+  .hero h1 {
+    font-size: clamp(2.7rem, 8vw, 5rem);
+    line-height: 1.02;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .hero .sub {
+    margin: 1.4rem auto 0;
+    max-width: 38rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.32rem);
+    line-height: 1.6;
+    color: var(--muted-fg);
+  }
+  .cta {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-scene {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: clamp(120px, 22vw, 240px);
+    z-index: 1;
+  }
+  .hero-scene svg { width: 100%; height: 100%; display: block; }
+
+  /* Shared section heads */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .sec-head {
+    max-width: 40rem;
+    margin: 0 auto 2.6rem;
+    text-align: center;
+  }
+  .sec-head h2, .intro h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin: 0; }
+  .sec-lede {
+    margin: 0.8rem 0 0;
+    font-size: 1.12rem;
+    color: var(--muted-fg);
+    line-height: 1.6;
+  }
+  .center { margin-top: 2.4rem; text-align: center; }
+
+  /* Intro */
+  .intro {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .intro-copy h2 { margin: 0.2rem 0 0.9rem; }
+  .intro-copy p { color: var(--muted-fg); font-size: 1.08rem; margin: 0 0 1rem; }
+  .intro-copy :global(.btn) { margin-top: 0.5rem; }
+  .pillars {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .pillars li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    padding: 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 1rem;
+  }
+  .pillars .p-ico {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 0.8rem;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+  }
+  .pillars div { display: flex; flex-direction: column; }
+  .pillars strong { font-size: 1rem; }
+  .pillars span { color: var(--muted-fg); font-size: 0.9rem; }
+
+  /* Layer strip */
+  .layer-strip {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    counter-reset: layer;
+  }
+  .layer-strip li { counter-increment: layer; }
+  .layer-strip a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    height: 100%;
+    padding: 1.1rem;
+    border-radius: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .layer-strip a:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--primary) 45%, var(--edge));
+  }
+  .layer-strip a::before {
+    content: counter(layer);
+    position: absolute;
+    top: 0.7rem;
+    right: 0.9rem;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  .layer-strip .l-ico { color: var(--primary); }
+  .layer-strip .l-name { font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; }
+  .layer-strip .l-height { font-size: 0.82rem; color: var(--muted-fg); }
+
+  /* Grids */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  /* Ethics */
+  .ethic-body { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; height: 100%; }
+  .ethic-body .e-ico {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    color: var(--primary-ink);
+    background: var(--primary);
+    margin-bottom: 0.4rem;
+  }
+  .ethic-body h3 { font-size: 1.35rem; margin: 0; }
+  .ethic-body p { margin: 0; color: var(--muted-fg); font-size: 0.98rem; line-height: 1.55; }
+
+  /* Final CTA */
+  .final-cta { padding: 4rem 1.25rem 1rem; }
+  .cta-card {
+    max-width: 44rem;
+    margin: 0 auto;
+    text-align: center;
+    padding: clamp(2.5rem, 6vw, 4rem);
+    border-radius: 1.6rem;
+    background:
+      radial-gradient(80% 100% at 50% 0%, color-mix(in oklab, var(--color-honey) 22%, transparent), transparent 60%),
+      var(--surface);
+    border: 1px solid var(--edge);
+  }
+  .cta-ico {
+    display: inline-grid;
+    place-items: center;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 50%;
+    color: var(--primary-ink);
+    background: var(--primary);
+    margin-bottom: 1rem;
+  }
+  .cta-card h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 0 0 0.7rem; }
+  .cta-card p { color: var(--muted-fg); font-size: 1.1rem; margin: 0 auto 1.6rem; max-width: 30rem; }
+
+  @media (min-width: 640px) {
+    .layer-strip { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 760px) {
+    .intro { grid-template-columns: 1.1fr 0.9fr; gap: 3.5rem; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 960px) {
+    .layer-strip { grid-template-columns: repeat(7, 1fr); gap: 0.6rem; }
+    .layer-strip a { padding: 0.9rem 0.7rem; }
+    .layer-strip .l-name { font-size: 0.95rem; }
+  }
+</style>

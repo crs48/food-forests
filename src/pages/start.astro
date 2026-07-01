@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../lib/url.ts';
+
+const steps = [
+  {
+    icon: 'eye',
+    title: 'Observe your site first',
+    body: 'Before you plant anything, watch. Across a season if you can — where the sun falls, where water pools, where frost lingers, what already grows well. This costs nothing and saves everything.',
+  },
+  {
+    icon: 'droplets',
+    title: 'Read the sun, water & soil',
+    body: 'Map your sun and shade (most fruit wants 6–8 hours), notice how water moves, and do a simple soil test for texture and drainage. Work with what you have rather than fighting it.',
+  },
+  {
+    icon: 'map-pin',
+    title: 'Know your climate & zone',
+    body: 'Choose perennials proven to thrive in your hardiness zone and microclimates. The right plant in the right place needs a fraction of the care.',
+  },
+  {
+    icon: 'network',
+    title: 'Design a guild',
+    body: 'Group a central tree with a nitrogen fixer, a dynamic accumulator like comfrey, some pollinator plants, and a ground cover — a little community that largely supports itself.',
+  },
+  {
+    icon: 'sprout',
+    title: 'Start small',
+    body: 'Begin with one guild or a single herb spiral. A tree and a handful of friends will teach you more than any masterplan. You can always add the next guild later.',
+  },
+  {
+    icon: 'clock',
+    title: 'Feed the soil, then be patient',
+    body: 'Mulch generously, water while things establish, and give it time. A food forest takes three years or more to settle in — and then the work drops as the harvest climbs.',
+  },
+];
+---
+<BaseLayout title="Start Growing" description="A calm, practical on-ramp to planting your first food forest — observe, design a guild, start small, and be patient.">
+  <PageHeader
+    eyebrow="Begin"
+    icon="seedling"
+    title="Start your own"
+    lede="You don't need acreage or a perfect plan. You need a corner, a little patience, and one guild to begin. Here's the path, one gentle step at a time."
+  />
+
+  <Section width="default" pad="md">
+    <ol class="steps">
+      {steps.map((step, i) => (
+        <li class="step" data-animate>
+          <div class="badge">
+            <span class="ico"><Icon name={step.icon} size={26} /></span>
+            <span class="num">Step {i + 1}</span>
+          </div>
+          <div class="text">
+            <h2>{step.title}</h2>
+            <p>{step.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section bg="surface" width="narrow" pad="md">
+    <div class="first-guild">
+      <p class="eyebrow"><Icon name="leaf" size={16} /> A recipe to copy</p>
+      <h2>Your very first guild</h2>
+      <p class="intro">Plant these together in a sunny corner and you've begun:</p>
+      <ul class="recipe">
+        <li><strong>One small fruit tree</strong> — an apple on dwarfing rootstock is forgiving.</li>
+        <li><strong>Comfrey &amp; daffodils</strong> at the drip line — mulch, minerals, and a rodent barrier.</li>
+        <li><strong>Clover</strong> as ground cover — free nitrogen and living mulch.</li>
+        <li><strong>Chives, dill &amp; yarrow</strong> — for pollinators and pest confusion.</li>
+        <li><strong>Strawberries</strong> — to knit across the soil (and snack on).</li>
+      </ul>
+      <div class="btns">
+        <Button href="/learn/start-small-your-first-guild" variant="primary" icon="arrow-right">Read the full guide</Button>
+        <Button href="/learn/guilds-and-companion-planting" variant="ghost">How guilds work</Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section width="narrow" pad="md" class="closing">
+    <h2>Feeling inspired?</h2>
+    <p>See how far this idea can grow — from a backyard guild to a regenerated rainforest.</p>
+    <div class="btns">
+      <Button href="/projects" variant="secondary" icon="arrow-right">Meet the growers</Button>
+      <Button href={href('/resources')} variant="ghost">Books, films &amp; courses</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.4rem; }
+  .step {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.6rem;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 1.2rem;
+  }
+  .badge { display: flex; align-items: center; gap: 0.8rem; }
+  .badge .ico {
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    flex: none;
+    border-radius: 0.9rem;
+    color: var(--primary-ink);
+    background: var(--primary);
+  }
+  .badge .num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .text h2 { font-size: 1.35rem; margin: 0 0 0.4rem; }
+  .text p { margin: 0; color: var(--muted-fg); line-height: 1.6; }
+
+  .first-guild .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .first-guild h2 { font-size: 1.9rem; margin: 0 0 0.5rem; }
+  .first-guild .intro { color: var(--muted-fg); margin: 0 0 1.2rem; }
+  .recipe { list-style: none; margin: 0 0 1.8rem; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .recipe li {
+    position: relative;
+    padding-left: 1.6rem;
+    color: var(--muted-fg);
+    line-height: 1.5;
+  }
+  .recipe li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.6rem;
+    height: 0.6rem;
+    background: var(--leaf);
+    border-radius: 0 100% 0 100%;
+    transform: rotate(-10deg);
+  }
+  .recipe strong { color: var(--text); }
+  .btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  .closing { text-align: center; }
+  .closing h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 0 0 0.5rem; }
+  .closing p { color: var(--muted-fg); font-size: 1.1rem; margin: 0 0 1.6rem; }
+  .closing .btns { justify-content: center; }
+
+  @media (min-width: 640px) {
+    .step { grid-template-columns: auto 1fr; align-items: center; gap: 1.6rem; }
+    .badge { flex-direction: column; align-items: flex-start; gap: 0.5rem; text-align: center; }
+  }
+</style>
