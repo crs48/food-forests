@@ -1,0 +1,37 @@
+---
+import { href as buildHref } from '../lib/url.ts';
+
+interface Props {
+  href?: string;
+  class?: string;
+  animate?: boolean;
+}
+const { href, class: className = '', animate = true } = Astro.props;
+const url = href ? buildHref(href) : undefined;
+const Tag = url ? 'a' : 'div';
+---
+<Tag href={url} class={`card ${className}`} data-animate={animate ? '' : undefined}>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 1.1rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+  }
+  a.card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--primary) 40%, var(--edge));
+    box-shadow: 0 18px 40px -22px color-mix(in oklab, var(--ink, #26301f) 60%, transparent);
+  }
+</style>

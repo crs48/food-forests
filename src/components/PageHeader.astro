@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  icon?: string;
+}
+const { eyebrow, title, lede, icon } = Astro.props;
+---
+<header class="page-header">
+  <div class="wrap">
+    {eyebrow && (
+      <p class="eyebrow">
+        {icon && <Icon name={icon} size={16} />} {eyebrow}
+      </p>
+    )}
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+  </div>
+</header>
+
+<style>
+  .page-header {
+    position: relative;
+    background:
+      radial-gradient(120% 140% at 15% -10%, color-mix(in oklab, var(--color-honey) 22%, transparent), transparent 55%),
+      linear-gradient(180deg, var(--hero-from), var(--bg));
+    border-bottom: 1px solid var(--edge);
+    padding-block: 3.4rem 3rem;
+  }
+  .wrap {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding-inline: 1.25rem;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    margin: 0;
+  }
+  .lede {
+    margin: 1rem 0 0;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--muted-fg);
+    max-width: 40rem;
+  }
+</style>

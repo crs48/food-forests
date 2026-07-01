@@ -484,11 +484,11 @@ export const href = (path = '') =>
       base typography + prose styles.
 - [x] `src/lib/url.ts` base-path-safe `href()` helper + `src/lib/site.ts`
       site metadata (title, description, nav, social).
-- [ ] `BaseLayout.astro`: `<head>` SEO (title/description/OG/canonical),
+- [x] `BaseLayout.astro`: `<head>` SEO (title/description/OG/canonical),
       fonts, `<ClientRouter />`, skip-link, `global.css` import; slots.
-- [ ] `Header.astro` (sticky nav, mobile menu, base-safe links) +
+- [x] `Header.astro` (sticky nav, mobile menu, base-safe links) +
       `Footer.astro` (nav, credits link, tagline).
-- [ ] Reusable components: `Button.astro`, `Card.astro`, `SectionDivider.astro`
+- [x] Reusable components: `Button.astro`, `Card.astro`, `SectionDivider.astro`
       (organic SVG, `preserveAspectRatio="none"`), `Prose.astro`,
       `Leaf`/`Icon` helper (Lucide/Phosphor inline SVG), `Hero.astro`.
 - [ ] `src/content.config.ts` with `articles`, `foodForests`, `layers`

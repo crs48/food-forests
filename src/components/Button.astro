@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+import { href as buildHref } from '../lib/url.ts';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'md' | 'lg';
+  icon?: string;
+  external?: boolean;
+  class?: string;
+}
+const {
+  href = '#',
+  variant = 'primary',
+  size = 'md',
+  icon,
+  external = false,
+  class: className = '',
+} = Astro.props;
+
+const url = external ? href : buildHref(href);
+const rel = external ? 'noopener noreferrer' : undefined;
+const target = external ? '_blank' : undefined;
+---
+<a
+  href={url}
+  rel={rel}
+  target={target}
+  class={`btn btn-${variant} btn-${size} ${className}`}
+>
+  <span><slot /></span>
+  {icon && <Icon name={icon} size={size === 'lg' ? 20 : 18} />}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition:
+      transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease;
+    will-change: transform;
+  }
+  .btn-md {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.98rem;
+  }
+  .btn-lg {
+    padding: 0.85rem 1.7rem;
+    font-size: 1.08rem;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: var(--primary-ink);
+    box-shadow: 0 6px 18px -8px color-mix(in oklab, var(--primary) 70%, transparent);
+  }
+  .btn-primary:hover {
+    color: var(--primary-ink);
+    box-shadow: 0 10px 26px -8px color-mix(in oklab, var(--primary) 70%, transparent);
+  }
+  .btn-secondary {
+    background: color-mix(in oklab, var(--accent) 16%, transparent);
+    color: var(--accent);
+    border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+  .btn-secondary:hover {
+    background: color-mix(in oklab, var(--accent) 26%, transparent);
+    color: var(--accent);
+  }
+  .btn-ghost {
+    color: var(--text);
+    border-color: var(--edge);
+  }
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: color-mix(in oklab, var(--primary) 50%, var(--edge));
+  }
+  .btn :global(.icon) {
+    transition: transform 0.2s ease;
+  }
+  .btn:hover :global(.icon) {
+    transform: translateX(2px);
+  }
+</style>

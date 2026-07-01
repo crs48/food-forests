@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Card from './Card.astro';
+import CardMedia from './CardMedia.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'foodForests'>;
+}
+const { project } = Astro.props;
+const { data, id } = project;
+---
+<Card href={`/projects/${id}`} class="project-card">
+  <CardMedia icon="tree" label={data.country} seed={id} height={160} />
+  <div class="body">
+    <h3>{data.name}</h3>
+    <p class="loc"><Icon name="map-pin" size={15} /> {data.location}</p>
+    <p class="summary">{data.summary}</p>
+    {data.steward && <p class="steward">Stewarded by {data.steward}</p>}
+  </div>
+</Card>
+
+<style>
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.2rem 1.3rem 1.4rem;
+  }
+  .body h3 {
+    font-size: 1.3rem;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .loc {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .summary {
+    margin: 0.3rem 0 0;
+    color: var(--muted-fg);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+  .steward {
+    margin: 0.4rem 0 0;
+    font-size: 0.82rem;
+    color: color-mix(in oklab, var(--text) 60%, transparent);
+  }
+</style>

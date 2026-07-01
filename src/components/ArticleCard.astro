@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Card from './Card.astro';
+import CardMedia from './CardMedia.astro';
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+}
+const { article } = Astro.props;
+const { data, id } = article;
+
+const categoryIcon: Record<string, string> = {
+  basics: 'sprout',
+  design: 'compass',
+  plants: 'leaf',
+  regenerative: 'recycle',
+};
+const categoryLabel: Record<string, string> = {
+  basics: 'Basics',
+  design: 'Design',
+  plants: 'Plants',
+  regenerative: 'Regenerative',
+};
+---
+<Card href={`/learn/${id}`} class="article-card">
+  <CardMedia icon={categoryIcon[data.category] ?? 'leaf'} label={categoryLabel[data.category]} seed={id} />
+  <div class="body">
+    <h3>{data.title}</h3>
+    <p>{data.description}</p>
+    <p class="meta">
+      {data.readingMinutes ? `${data.readingMinutes} min read` : 'Article'}
+    </p>
+  </div>
+</Card>
+
+<style>
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.2rem 1.3rem 1.4rem;
+  }
+  .body h3 {
+    font-size: 1.28rem;
+    margin: 0;
+  }
+  .body p {
+    margin: 0;
+    color: var(--muted-fg);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+  .meta {
+    margin-top: 0.35rem !important;
+    font-size: 0.82rem !important;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--primary) 75%, var(--muted-fg)) !important;
+  }
+</style>

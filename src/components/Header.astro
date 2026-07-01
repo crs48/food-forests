@@ -1,0 +1,155 @@
+---
+import Icon from './Icon.astro';
+import { nav, site } from '../lib/site.ts';
+import { href, isActive } from '../lib/url.ts';
+
+const current = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href={href('/')} aria-label={`${site.name} — home`}>
+      <span class="mark"><Icon name="sprout" size={22} stroke={2} /></span>
+      <span class="name">{site.name}</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary">
+      {nav.map((item) => (
+        <a
+          href={href(item.path)}
+          class:list={['nav-link', { active: isActive(current, item.path) }]}
+          aria-current={isActive(current, item.path) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <details class="mobile-nav">
+      <summary aria-label="Toggle menu">
+        <Icon name="menu" size={24} class="i-open" />
+        <Icon name="x" size={24} class="i-close" />
+      </summary>
+      <nav aria-label="Primary mobile">
+        {nav.map((item) => (
+          <a
+            href={href(item.path)}
+            class:list={['m-link', { active: isActive(current, item.path) }]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </details>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom: 1px solid var(--edge);
+  }
+  .inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0.7rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.28rem;
+    letter-spacing: -0.01em;
+  }
+  .brand:hover {
+    color: var(--text);
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    color: var(--primary-ink);
+    background: var(--primary);
+  }
+  .desktop-nav {
+    display: none;
+    gap: 0.35rem;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 0.45rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.96rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+  .nav-link:hover {
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+  }
+  .nav-link.active {
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 15%, transparent);
+  }
+
+  /* Mobile menu — native <details>, no JS, survives view transitions */
+  .mobile-nav summary {
+    list-style: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.7rem;
+    border: 1px solid var(--edge);
+    color: var(--text);
+  }
+  .mobile-nav summary::-webkit-details-marker { display: none; }
+  .mobile-nav .i-close { display: none; }
+  .mobile-nav[open] .i-open { display: none; }
+  .mobile-nav[open] .i-close { display: block; }
+  .mobile-nav nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem;
+    gap: 0.15rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--edge);
+    box-shadow: 0 16px 30px -20px rgba(0, 0, 0, 0.5);
+  }
+  .m-link {
+    padding: 0.75rem 0.9rem;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .m-link:hover, .m-link.active {
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+  }
+
+  @media (min-width: 900px) {
+    .desktop-nav { display: flex; }
+    .mobile-nav { display: none; }
+  }
+</style>
