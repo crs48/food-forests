@@ -491,17 +491,17 @@ export const href = (path = '') =>
 - [x] Reusable components: `Button.astro`, `Card.astro`, `SectionDivider.astro`
       (organic SVG, `preserveAspectRatio="none"`), `Prose.astro`,
       `Leaf`/`Icon` helper (Lucide/Phosphor inline SVG), `Hero.astro`.
-- [ ] `src/content.config.ts` with `articles`, `foodForests`, `layers`
+- [x] `src/content.config.ts` with `articles`, `foodForests`, `layers`
       collections (zod schemas, `astro/zod` import).
-- [ ] Seed `layers` content: all 7 layers (+ note on fungal/aquatic 8th/9th),
+- [x] Seed `layers` content: all 7 layers (+ note on fungal/aquatic 8th/9th),
       with height ranges and example species.
-- [ ] Seed `foodForests` content: the 9 verified profiles with accurate
+- [x] Seed `foodForests` content: the 9 verified profiles with accurate
       facts + accuracy flags (Browns Mill = largest US; Savory contested;
       Götsch Swiss-born) and source links.
-- [ ] Seed `articles` content: ≥5 starter articles (what is a food forest;
+- [x] Seed `articles` content: ≥5 starter articles (what is a food forest;
       the seven layers; permaculture ethics & principles; guilds & companion
       planting; regenerative vs permaculture; start small).
-- [ ] Data modules: `src/data/principles.ts` (3 ethics + Holmgren's 12 with
+- [x] Data modules: `src/data/principles.ts` (3 ethics + Holmgren's 12 with
       proverbs) and `src/data/resources.ts` (books/films/orgs/courses).
 - [ ] Home page `/`: hero, "what is a food forest", seven-layers preview,
       featured projects, principles teaser, "start your own" CTA, closing.
