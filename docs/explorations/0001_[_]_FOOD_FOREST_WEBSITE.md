@@ -517,9 +517,9 @@ export const href = (path = '') =>
       `/credits` (image + content attributions) + custom `/404`.
 - [x] SEO plumbing: `@astrojs/sitemap`, `src/pages/rss.xml.js` feed,
       `public/robots.txt`, `public/favicon.svg`, per-page OG metadata.
-- [ ] `.github/workflows/deploy.yml` using `withastro/action@v6` +
+- [x] `.github/workflows/deploy.yml` using `withastro/action@v6` +
       `actions/deploy-pages@v5` (triggers on push to `main`).
-- [ ] Pretty `README.md`: hero blurb, screenshots/placeholder, live URL,
+- [x] Pretty `README.md`: hero blurb, screenshots/placeholder, live URL,
       local-dev (nvm note), content-authoring guide, tech stack, license,
       credits pointer.
 - [ ] Create GitHub repo `crs48/food-forests`, push, set Pages source to
