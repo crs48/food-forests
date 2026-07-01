@@ -1,0 +1,127 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import Icon from '../../components/Icon.astro';
+import { href } from '../../lib/url.ts';
+
+export const getStaticPaths = (async () => {
+  const articles = (await getCollection('articles')).filter((a) => !a.data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}) satisfies GetStaticPaths;
+
+const { article } = Astro.props;
+const { data } = article;
+const { Content } = await render(article);
+
+const categoryLabel: Record<string, string> = {
+  basics: 'Getting started',
+  design: 'Design',
+  plants: 'Plants',
+  regenerative: 'Regenerative',
+};
+const dateStr = data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+<BaseLayout title={data.title} description={data.description}>
+  <article>
+    <header class="art-header">
+      <div class="wrap">
+        <p class="crumb">
+          <a href={href('/learn')}><Icon name="arrow-left" size={15} /> Learn</a>
+        </p>
+        <p class="eyebrow">{categoryLabel[data.category]}</p>
+        <h1>{data.title}</h1>
+        <p class="lede">{data.description}</p>
+        <p class="meta">
+          <span><Icon name="calendar" size={15} /> {dateStr}</span>
+          {data.readingMinutes && <span><Icon name="clock" size={15} /> {data.readingMinutes} min read</span>}
+        </p>
+      </div>
+    </header>
+
+    <Section width="narrow" pad="md">
+      <div class="prose">
+        <Content />
+      </div>
+
+      {data.tags.length > 0 && (
+        <ul class="tags">
+          {data.tags.map((tag) => <li>#{tag}</li>)}
+        </ul>
+      )}
+
+      <div class="art-foot">
+        <Button href="/learn" variant="secondary" icon="arrow-right">More from the library</Button>
+      </div>
+    </Section>
+  </article>
+</BaseLayout>
+
+<style>
+  .art-header {
+    background: linear-gradient(180deg, var(--hero-from), var(--bg));
+    border-bottom: 1px solid var(--edge);
+    padding-block: 2.6rem 2.4rem;
+  }
+  .art-header .wrap {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding-inline: 1.25rem;
+  }
+  .crumb { margin: 0 0 1rem; }
+  .crumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--muted-fg);
+  }
+  .crumb a:hover { color: var(--primary); }
+  .eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .art-header h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0; }
+  .art-header .lede { margin: 1rem 0 0; font-size: 1.2rem; color: var(--muted-fg); line-height: 1.55; }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+    margin: 1.2rem 0 0;
+    color: var(--muted-fg);
+    font-size: 0.9rem;
+  }
+  .meta span { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+  }
+  .tags li {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted-fg);
+    background: var(--surface-2);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+  .art-foot { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--edge); }
+</style>

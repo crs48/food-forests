@@ -1,0 +1,178 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import Icon from '../../components/Icon.astro';
+import CardMedia from '../../components/CardMedia.astro';
+import { href } from '../../lib/url.ts';
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('foodForests');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const facts = [
+  { icon: 'map-pin', label: 'Location', value: `${data.location}, ${data.country}` },
+  data.established && { icon: 'calendar', label: 'Established', value: String(data.established) },
+  data.area && { icon: 'ruler', label: 'Size', value: data.area },
+  data.climateZone && { icon: 'sun', label: 'Climate', value: data.climateZone },
+  data.steward && { icon: 'users', label: 'Steward', value: data.steward },
+].filter(Boolean) as { icon: string; label: string; value: string }[];
+---
+<BaseLayout title={data.name} description={data.summary}>
+  <article>
+    <header class="proj-header">
+      <div class="wrap">
+        <p class="crumb">
+          <a href={href('/projects')}><Icon name="arrow-left" size={15} /> Real Projects</a>
+        </p>
+        <h1>{data.name}</h1>
+        <p class="summary">{data.summary}</p>
+        {data.tags.length > 0 && (
+          <ul class="tags">
+            {data.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+        )}
+      </div>
+    </header>
+
+    <Section width="default" pad="md">
+      <div class="layout">
+        <div class="main">
+          <CardMedia icon="tree" label={data.country} seed={project.id} height={220} />
+          <div class="prose body">
+            <Content />
+          </div>
+          {data.website && (
+            <div class="visit">
+              <Button href={data.website} external variant="primary" icon="external">
+                Visit {data.name}
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <aside class="side">
+          <div class="facts">
+            <h2>At a glance</h2>
+            <dl>
+              {facts.map((f) => (
+                <div class="fact">
+                  <dt><Icon name={f.icon} size={16} /> {f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {data.sources.length > 0 && (
+            <div class="sources">
+              <h2>Sources</h2>
+              <ul>
+                {data.sources.map((s) => (
+                  <li>
+                    <a href={s.url} target="_blank" rel="noopener noreferrer">
+                      {s.label} <Icon name="external" size={13} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+      </div>
+
+      <div class="foot">
+        <Button href="/projects" variant="secondary" icon="arrow-right">See more projects</Button>
+      </div>
+    </Section>
+  </article>
+</BaseLayout>
+
+<style>
+  .proj-header {
+    background: linear-gradient(180deg, var(--hero-from), var(--bg));
+    border-bottom: 1px solid var(--edge);
+    padding-block: 2.6rem 2.2rem;
+  }
+  .proj-header .wrap { max-width: 72rem; margin: 0 auto; padding-inline: 1.25rem; }
+  .crumb { margin: 0 0 1rem; }
+  .crumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--muted-fg);
+  }
+  .crumb a:hover { color: var(--primary); }
+  .proj-header h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0; }
+  .summary { margin: 0.9rem 0 0; font-size: 1.2rem; color: var(--muted-fg); line-height: 1.55; max-width: 42rem; }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.2rem 0 0; padding: 0; }
+  .tags li {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: color-mix(in oklab, var(--primary) 12%, transparent);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .layout { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  .main :global(.media) { border-radius: 1.2rem; margin-bottom: 1.8rem; }
+  .body { max-width: none; }
+  .visit { margin-top: 2rem; }
+
+  .side { display: flex; flex-direction: column; gap: 1.4rem; }
+  .facts, .sources {
+    padding: 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 1.1rem;
+  }
+  .side h2 {
+    font-size: 0.82rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin: 0 0 1rem;
+  }
+  .facts dl { margin: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+  .fact dt {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+  }
+  .fact dd { margin: 0.15rem 0 0; font-size: 1rem; color: var(--text); }
+  .sources ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .sources a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.92rem;
+    color: var(--link);
+    text-decoration: none;
+  }
+  .sources a:hover { color: var(--primary); text-decoration: underline; }
+  .foot { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--edge); }
+
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: 1.7fr 1fr; align-items: start; }
+    .side { position: sticky; top: 5rem; }
+  }
+</style>

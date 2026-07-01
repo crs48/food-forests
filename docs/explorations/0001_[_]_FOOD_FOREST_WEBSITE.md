@@ -503,17 +503,17 @@ export const href = (path = '') =>
       planting; regenerative vs permaculture; start small).
 - [x] Data modules: `src/data/principles.ts` (3 ethics + Holmgren's 12 with
       proverbs) and `src/data/resources.ts` (books/films/orgs/courses).
-- [ ] Home page `/`: hero, "what is a food forest", seven-layers preview,
+- [x] Home page `/`: hero, "what is a food forest", seven-layers preview,
       featured projects, principles teaser, "start your own" CTA, closing.
-- [ ] Learn hub `/learn` (article index, grouped by category) + `/learn/[slug]`
+- [x] Learn hub `/learn` (article index, grouped by category) + `/learn/[slug]`
       dynamic article pages (`getStaticPaths` + `render()`), with prose styling.
-- [ ] `/layers` page: visual, ordered walkthrough of the seven layers.
-- [ ] `/permaculture` page: 3 ethics + 12 principles (from data module).
-- [ ] `/projects` index + `/projects/[slug]` profile pages (facts panel,
+- [x] `/layers` page: visual, ordered walkthrough of the seven layers.
+- [x] `/permaculture` page: 3 ethics + 12 principles (from data module).
+- [x] `/projects` index + `/projects/[slug]` profile pages (facts panel,
       summary, website + source links).
-- [ ] `/start` page: beginner on-ramp (observe → sun/water/soil → zone →
+- [x] `/start` page: beginner on-ramp (observe → sun/water/soil → zone →
       guild → start small → patience), linking to articles.
-- [ ] `/resources` page (books/films/orgs/courses from data) + `/about` +
+- [x] `/resources` page (books/films/orgs/courses from data) + `/about` +
       `/credits` (image + content attributions) + custom `/404`.
 - [ ] SEO plumbing: `@astrojs/sitemap`, `src/pages/rss.xml.js` feed,
       `public/robots.txt`, `public/favicon.svg`, per-page OG metadata.

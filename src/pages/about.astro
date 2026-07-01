@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+
+const values = [
+  { icon: 'book-open', title: 'Education, first', body: 'Clear, honest, jargon-free explanations of how food forests and permaculture actually work.' },
+  { icon: 'sparkles', title: 'Inspiration, always', body: 'Real places and real people, to show what is not only possible but already growing.' },
+  { icon: 'heart', title: 'The commons', body: 'Knowledge — like a public food forest — is meant to be shared freely and picked from.' },
+];
+---
+<BaseLayout title="About" description="Why this project exists: education and inspiration for anyone drawn to food forests, permaculture, and a more regenerative way of living.">
+  <PageHeader
+    eyebrow="Our why"
+    icon="sprout"
+    title="A cozy corner for regenerative dreams"
+    lede="This is a place to learn how food forests work, to meet the people already growing them, and to feel that a greener, more nourishing future is within reach."
+  />
+
+  <Section width="narrow" pad="md">
+    <div class="prose">
+      <p>
+        We started this project with a simple belief: that the future can be
+        <em>abundant</em> — leafy, sun-warmed, and generous — and that food
+        forests are one of the most hopeful, hands-in-the-soil ways to build it.
+      </p>
+      <p>
+        Somewhere between a garden and a wild wood sits an idea that quietly
+        rewires how we feed ourselves: plant a diverse, layered, perennial
+        ecosystem, and then let it largely tend itself while it feeds you, heals
+        the soil, and shelters a hundred other kinds of life. It's regenerative
+        agriculture at the scale of a backyard, a schoolyard, or a city block.
+      </p>
+      <p>
+        For now, our goal is modest and clear — <strong>education and
+        inspiration</strong>. We want the curious to leave understanding a
+        little more, and dreaming a little bigger.
+      </p>
+    </div>
+  </Section>
+
+  <Section bg="surface" pad="md">
+    <div class="values">
+      {values.map((v) => (
+        <div class="value" data-animate>
+          <span class="v-ico"><Icon name={v.icon} size={26} /></span>
+          <h2>{v.title}</h2>
+          <p>{v.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section width="narrow" pad="md" class="closing">
+    <h2>Come grow with us</h2>
+    <p>This site is open-source and made in the spirit of the commons. Wander in, learn something, and start something.</p>
+    <div class="btns">
+      <Button href="/start" variant="primary" icon="arrow-right">Start growing</Button>
+      <Button href="https://github.com/crs48/food-forests" external variant="ghost" icon="github">Contribute on GitHub</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .values { display: grid; grid-template-columns: 1fr; gap: 1.4rem; }
+  .value {
+    padding: 1.8rem;
+    background: var(--bg);
+    border: 1px solid var(--edge);
+    border-radius: 1.2rem;
+    text-align: center;
+  }
+  .v-ico {
+    display: inline-grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    color: var(--primary-ink);
+    background: var(--primary);
+    margin-bottom: 0.8rem;
+  }
+  .value h2 { font-size: 1.35rem; margin: 0 0 0.4rem; }
+  .value p { margin: 0; color: var(--muted-fg); line-height: 1.55; }
+
+  .closing { text-align: center; }
+  .closing h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 0 0 0.5rem; }
+  .closing p { color: var(--muted-fg); font-size: 1.1rem; margin: 0 0 1.6rem; }
+  .btns { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+  @media (min-width: 720px) { .values { grid-template-columns: repeat(3, 1fr); } }
+</style>
