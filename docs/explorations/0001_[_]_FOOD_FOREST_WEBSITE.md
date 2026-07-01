@@ -527,21 +527,21 @@ export const href = (path = '') =>
 
 ## Validation Checklist
 
-- [ ] `nvm use 22.16.0 && npm run build` completes with **no errors**
+- [x] `nvm use 22.16.0 && npm run build` completes with **no errors**
       (`astro check` clean, `dist/` produced).
-- [ ] `npm run preview` serves the site and every nav route renders (home,
+- [x] `npm run preview` serves the site and every nav route renders (home,
       learn + an article, layers, permaculture, projects + a profile, start,
       resources, about, credits, 404).
-- [ ] No broken internal links: built HTML has no hardcoded `href="/..."`
+- [x] No broken internal links: built HTML has no hardcoded `href="/..."`
       that bypasses the `/food-forests/` base (spot-check + grep `dist/`).
-- [ ] Content accuracy spot-check: Browns Mill labeled largest US public food
+- [x] Content accuracy spot-check: Browns Mill labeled largest US public food
       forest; seven layers present with fungal/aquatic note; 12 principles
       match Holmgren; Savory framed as contested.
-- [ ] Accessibility sanity: AA contrast holds (Sunlit Meadow), images have
+- [x] Accessibility sanity: AA contrast holds (Sunlit Meadow), images have
       `alt`, there's a skip-link, headings are ordered, focus states visible.
-- [ ] Dark mode renders correctly under `prefers-color-scheme: dark`; motion
+- [x] Dark mode renders correctly under `prefers-color-scheme: dark`; motion
       is suppressed under `prefers-reduced-motion: reduce`.
-- [ ] `sitemap-index.xml`, `rss.xml`, and `robots.txt` are emitted in `dist/`.
+- [x] `sitemap-index.xml`, `rss.xml`, and `robots.txt` are emitted in `dist/`.
 - [ ] The GitHub Actions **deploy workflow succeeds** and the site is live at
       `https://crs48.github.io/food-forests/` with working styling + links.
 
