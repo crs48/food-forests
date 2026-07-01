@@ -515,7 +515,7 @@ export const href = (path = '') =>
       guild → start small → patience), linking to articles.
 - [x] `/resources` page (books/films/orgs/courses from data) + `/about` +
       `/credits` (image + content attributions) + custom `/404`.
-- [ ] SEO plumbing: `@astrojs/sitemap`, `src/pages/rss.xml.js` feed,
+- [x] SEO plumbing: `@astrojs/sitemap`, `src/pages/rss.xml.js` feed,
       `public/robots.txt`, `public/favicon.svg`, per-page OG metadata.
 - [ ] `.github/workflows/deploy.yml` using `withastro/action@v6` +
       `actions/deploy-pages@v5` (triggers on push to `main`).

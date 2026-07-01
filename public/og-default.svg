@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf6e3"/>
+      <stop offset="1" stop-color="#eef3e6"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4e7a3e"/>
+      <stop offset="1" stop-color="#2f5233"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <circle cx="980" cy="150" r="90" fill="#f0b849" opacity="0.85"/>
+  <path d="M0 470 C 300 400 500 520 750 470 C 950 430 1100 500 1200 460 L1200 630 L0 630 Z" fill="url(#hill)"/>
+  <path d="M0 540 C 250 500 450 570 700 540 C 950 510 1080 560 1200 535 L1200 630 L0 630 Z" fill="#223019" opacity="0.85"/>
+  <g fill="none" stroke="#2f5233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(120 250)">
+    <path d="M60 150V70"/>
+    <path d="M60 90c0-28-21-45-56-45 0 28 21 45 56 45Z"/>
+    <path d="M60 76c0-22 17-36 45-36 0 22-17 36-45 36Z"/>
+  </g>
+  <text x="250" y="300" font-family="Georgia, serif" font-size="86" font-weight="700" fill="#26301f">Food Forests</text>
+  <text x="252" y="360" font-family="Georgia, serif" font-size="38" fill="#5a4632">Grow a forest you can eat.</text>
+  <text x="252" y="418" font-family="system-ui, sans-serif" font-size="26" fill="#4e7a3e">Learn · Be inspired · Start growing</text>
+</svg>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://crs48.github.io/food-forests/sitemap-index.xml
