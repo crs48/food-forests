@@ -479,10 +479,10 @@ export const href = (path = '') =>
 - [x] Install deps: `astro`, `@tailwindcss/vite`, `tailwindcss`,
       `@astrojs/sitemap`, `@astrojs/rss`, `@fontsource-variable/fraunces`,
       `@fontsource-variable/nunito-sans`, `sharp`.
-- [ ] Design system: `src/styles/global.css` with Sunlit Meadow `@theme`
+- [x] Design system: `src/styles/global.css` with Sunlit Meadow `@theme`
       tokens, semantic aliases, Forest Canopy dark mode, reduced-motion guard,
       base typography + prose styles.
-- [ ] `src/lib/url.ts` base-path-safe `href()` helper + `src/lib/site.ts`
+- [x] `src/lib/url.ts` base-path-safe `href()` helper + `src/lib/site.ts`
       site metadata (title, description, nav, social).
 - [ ] `BaseLayout.astro`: `<head>` SEO (title/description/OG/canonical),
       fonts, `<ClientRouter />`, skip-link, `global.css` import; slots.
